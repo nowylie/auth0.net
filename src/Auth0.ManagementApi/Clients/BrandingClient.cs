@@ -80,5 +80,49 @@ namespace Auth0.ManagementApi.Clients
         {
             return Connection.SendAsync<UniversalLoginTemplate>(HttpMethod.Put, BuildUri("branding/templates/universal-login"), request, DefaultHeaders, cancellationToken: cancellationToken);
         }
+
+        /// <summary>
+        /// Retrieves a theme.
+        /// </summary>
+        /// <param name="id">The id of the theme to retrieve.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <returns>The <see cref="BrandingTheme"/> containing theme details.</returns>
+        public Task<BrandingTheme> GetThemeAsync(string id, CancellationToken cancellationToken = default)
+        {
+            return Connection.GetAsync<BrandingTheme>(BuildUri($"branding/themes/{EncodePath(id)}"), DefaultHeaders, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// Retrieves the default theme.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <returns>The <see cref="BrandingTheme"/> containing the default theme details.</returns>
+        public Task<BrandingTheme> GetDefaultThemeAsync(CancellationToken cancellationToken = default)
+        {
+            return Connection.GetAsync<BrandingTheme>(BuildUri("branding/themes/default"), DefaultHeaders, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// Delete a theme.
+        /// </summary>
+        /// <param name="id">The id of the theme to delete.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous delete operation.</returns>
+        public Task DeleteThemeAsync(string id, CancellationToken cancellationToken = default)
+        {
+            return Connection.SendAsync<object>(HttpMethod.Delete, BuildUri($"branding/themes/{EncodePath(id)}"), null, DefaultHeaders, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// Update a theme.
+        /// </summary>
+        /// <param name="id">The id of the theme you want to update.</param>
+        /// <param name="request">The <see cref="BrandingThemeUpdateRequest"/> containing properties of the theme you want to update.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <returns>The newly updated <see cref="BrandingTheme"/>.</returns>
+        public Task<BrandingTheme> UpdateThemeAsync(string id, BrandingThemeUpdateRequest request, CancellationToken cancellationToken = default)
+        {
+            return Connection.SendAsync<BrandingTheme>(new HttpMethod("PATCH"), BuildUri($"branding/themes/{EncodePath(id)}"), request, DefaultHeaders, cancellationToken: cancellationToken);
+        }
     }
 }
